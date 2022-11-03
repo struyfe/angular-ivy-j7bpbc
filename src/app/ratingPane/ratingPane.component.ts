@@ -112,12 +112,6 @@ export class RatingPaneComponent implements OnChanges {
         console.log("In RefreshTrackInfo - typeof $scope.ArtistInfo.artist.mbid !== 'undefined' voor " + this.myTrack.artist + " --> geen releases");
       }
     });
-/*
-			{
-				$scope.ArtistInfo = response;
-
-
-*/    
     console.log( "RatingPaneComponent.ngOnChanges - einde");
   }
 
