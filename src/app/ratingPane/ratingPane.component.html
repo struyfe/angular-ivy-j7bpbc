@@ -1,9 +1,16 @@
-<div>
-{{ myTrack.artist }} - {{ myTrack.title }} ({{ myTrack.album }})
-</div>
+<div>{{ myTrack.artist }} - {{ myTrack.title }} ({{ myTrack.album }})</div>
 <div class="row">
   <div class="col-sm-2">
-    <input  id="inpR1" class="form-control" type="number" name="txtRating" [(ngModel)]="myTrack.rating" min="0" max="100" step="20"/>
+    <input
+      id="inpR1"
+      class="form-control"
+      type="number"
+      name="txtRating"
+      [(ngModel)]="myTrack.rating"
+      min="0"
+      max="100"
+      step="20"
+    />
   </div>
   <div class="col-sm-6">
     <select class="form-control" [(ngModel)]="myTrack.genre" id="inpR2">
@@ -33,7 +40,8 @@
       <option>Latin</option>
       <option>Lounge</option>
       <option>Madchester</option>
-      <option>Maxx</option>			<!-- ? -->
+      <option>Maxx</option>
+      <!-- ? -->
       <option>Minimal</option>
       <option>New Beat</option>
       <option>New Wave</option>
@@ -44,44 +52,167 @@
       <option>Tango</option>
       <option>Trip-Hop</option>
       <option>Twee</option>
-      <option>World</option>			<!-- ? -->
+      <option>World</option>
+      <!-- ? -->
     </select>
   </div>
   <div class="col-sm-2">
-    <input class="form-control" id="inpR3" type="number" name="txtJaar" [(ngModel)]="myTrack.jaar"   min="0"   max="2999" step="1"/>
+    <input
+      class="form-control"
+      id="inpR3"
+      type="number"
+      name="txtJaar"
+      [(ngModel)]="myTrack.jaar"
+      min="0"
+      max="2999"
+      step="1"
+    />
   </div>
   <div class="col-sm-2">
-    <button type="button" class="btn btn-success btn-sm"  (click)="RateSelectedTrack()">Save</button>
+    <button
+      type="button"
+      class="btn btn-success btn-sm"
+      (click)="RateSelectedTrack()"
+    >
+      Save
+    </button>
   </div>
 </div>
 <div class="row">
   <div class="col-sm-2">
     <div class="btn-group" role="group" aria-label="Basic example">
-      <button (click)="myTrack.rating=20" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
-      <button (click)="myTrack.rating=40" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
-      <button (click)="myTrack.rating=60" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
-      <button (click)="myTrack.rating=80" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
-      <button (click)="myTrack.rating=100" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      <button
+        (click)="myTrack.rating = 20"
+        type="button"
+        class="btn btn-link"
+        style="padding-left: 1px; padding-right: 0px; text-decoration: none"
+      >
+        &#9733;
+      </button>
+      <button
+        (click)="myTrack.rating = 40"
+        type="button"
+        class="btn btn-link"
+        style="padding-left: 1px; padding-right: 0px; text-decoration: none"
+      >
+        &#9733;
+      </button>
+      <button
+        (click)="myTrack.rating = 60"
+        type="button"
+        class="btn btn-link"
+        style="padding-left: 1px; padding-right: 0px; text-decoration: none"
+      >
+        &#9733;
+      </button>
+      <button
+        (click)="myTrack.rating = 80"
+        type="button"
+        class="btn btn-link"
+        style="padding-left: 1px; padding-right: 0px; text-decoration: none"
+      >
+        &#9733;
+      </button>
+      <button
+        (click)="myTrack.rating = 100"
+        type="button"
+        class="btn btn-link"
+        style="padding-left: 1px; padding-right: 0px; text-decoration: none"
+      >
+        &#9733;
+      </button>
     </div>
   </div>
-  <div class="col-sm-6"> <!-- Genre buttons-->
+  <div class="col-sm-6">
+    <!-- Genre buttons-->
     <table>
       <tr>
         <td align="center">
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Electronic"'>Electronic</button>
-          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Indietronica"'>Indietronica</button>
-          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Lounge"'>Lounge</button>
-          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Trip-Hop"'>Trip-Hop</button>
-          <button type="button" class="btn btn-warning btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre=RatingRecentGenre'>{{RatingRecentGenre}}</button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Electronic'"
+          >
+            Electronic
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Indietronica'"
+          >
+            Indietronica
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Lounge'"
+          >
+            Lounge
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Trip-Hop'"
+          >
+            Trip-Hop
+          </button>
+          <button
+            type="button"
+            class="btn btn-warning btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = RatingRecentGenre"
+          >
+            {{ RatingRecentGenre }}
+          </button>
         </td>
       </tr>
       <tr>
         <td align="center">
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Indie"'>Indie</button>
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Indie Pop"'>Indie Pop</button>
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Dream Pop"'>Dream Pop</button>
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Alternative"'>Alternative</button>
-        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.genre="Belgisch"'>Belgisch</button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Indie'"
+          >
+            Indie
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Indie Pop'"
+          >
+            Indie Pop
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Dream Pop'"
+          >
+            Dream Pop
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Alternative'"
+          >
+            Alternative
+          </button>
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.genre = 'Belgisch'"
+          >
+            Belgisch
+          </button>
+        </td>
       </tr>
     </table>
   </div>
@@ -89,27 +220,72 @@
     <table>
       <tr>
         <td align="center">
-          <button type="button" class="btn btn-secondary btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.jaar=GetCurrentYear(0)'>{{GetCurrentYear(0)}}</button>
-          <button type="button" class="btn btn-warning btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.jaar=RatingRecentJaar'>{{RatingRecentJaar}}</button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = GetCurrentYear(0)"
+          >
+            {{ GetCurrentYear(0) }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-warning btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = RatingRecentJaar"
+          >
+            {{ RatingRecentJaar }}
+          </button>
         </td>
       </tr>
       <tr>
         <td align="center">
-          <button type="button" class="btn btn-secondary btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.jaar=GetCurrentYear(-1)'>{{GetCurrentYear(-1)}}</button>
-          <button type="button" class="btn btn-secondary btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='myTrack.jaar=GetCurrentYear(-2)'>{{GetCurrentYear(-2)}}</button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = GetCurrentYear(-1)"
+          >
+            {{ GetCurrentYear(-1) }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = GetCurrentYear(-2)"
+          >
+            {{ GetCurrentYear(-2) }}
+          </button>
         </td>
       </tr>
     </table>
   </div>
   <div class="col-sm-2">
-  <!--
     <table>
       <tr>
-        <td><a href=""><span class="label label-primary" ng-click='SelectedTrack.jaar=LastFMTrackYearReleased' title="LastFM:{{LastFMTrackTooltip}}">{{LastFMTrackYearReleased}}</span></a></td></tr>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = LastFMTrackYearReleased"
+          >
+            {{ LastFMTrackYearReleased }}
+          </button>
+        </td>
+      </tr>
       <tr>
-        <td><a href=""><span class="label label-primary" ng-click='SelectedTrack.jaar=iTunesTrackYearReleased' title="iTunes:{{iTunesTrackTooltip}}">{{iTunesTrackYearReleased}}</span></a></td></tr>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;"
+            (click)="myTrack.jaar = iTunesTrackYearReleased"
+          >
+            {{ iTunesTrackYearReleased }}
+          </button>
+        </td>
+      </tr>
     </table>
-
-  -->
   </div>
 </div>
