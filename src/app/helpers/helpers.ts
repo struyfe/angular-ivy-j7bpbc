@@ -12,3 +12,16 @@ export function  myEncodeURI( sIn, sTarget="") {
   while (sTemp.indexOf("%E2%80%99") > -1)	sTemp=sTemp.replace("%E2%80%99", "%27");  // deze single quote (&#146;) geeft rare effecten
   return sTemp;
 }
+
+export function ComparableString( sIn : string) {
+  var sTemp = sIn;
+ 
+  //gewone "-" = "\u002D" (hyphen-minus)
+  while (sTemp.indexOf("\u2010") > -1)	sTemp=sTemp.replace("\u2010", "-");  
+  while (sTemp.indexOf("\u2011") > -1)	sTemp=sTemp.replace("\u2011", "-");  
+  while (sTemp.indexOf("\u2012") > -1)	sTemp=sTemp.replace("\u2012", "-");  
+  while (sTemp.indexOf("\u2013") > -1)	sTemp=sTemp.replace("\u2013", "-");  
+  while (sTemp.indexOf("\u2014") > -1)	sTemp=sTemp.replace("\u2014", "-");  
+
+  return sTemp;
+}

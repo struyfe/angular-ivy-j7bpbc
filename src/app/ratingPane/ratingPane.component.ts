@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TrackRating, EmptyTrackRating} from '../whapl/whapl';
-import { myEncodeURI} from '../helpers/helpers';
+import { myEncodeURI, ComparableString} from '../helpers/helpers';
 
 
 @Component({
@@ -91,10 +91,9 @@ export class RatingPaneComponent implements OnChanges {
               for (i = 0; i < response3['release-group-count']; i++) {
                 if (typeof response3['release-groups'][i] !== "undefined")
                 {
-                  //console.log("response['release-groups'][i]['title']=" +response['release-groups'][i]['title']);
-                  if (response3['release-groups'][i]['title'].toLowerCase() == this.myTrack.album.toLowerCase())
+                  if (ComparableString(response3['release-groups'][i]['title']).toLowerCase() == ComparableString(this.myTrack.album.toLowerCase()))
                   {
-                    //console.log("Hit! Album gevonden " + response['release-groups'][i]['first-release-date']);
+                    //console.log("Hit! Album gevonden " + response3['release-groups'][i]['first-release-date']);
                     this.LastFMTrackYearReleased = parseInt( response3['release-groups'][i]['first-release-date'].substring(0, 4));
                     //$scope.LastFMTrackTooltip = "Album: " + response['release-groups'][i]['title'];
                     if (this.myTrack.jaar==-1 ||this.myTrack.jaar==0 )
