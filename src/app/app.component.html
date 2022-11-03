@@ -1,6 +1,81 @@
 
 <button (click)="Refresh()">Refresh</button>
 
+<p></p>
+
+<div>
+{{ this.selectedTrack.artist }} - {{ this.selectedTrack.title }} ({{ this.selectedTrack.album }})
+</div>
+<div>
+  <table>
+    <tr>
+      <td>
+        <input id="inpR1" type="number" name="txtRating" [(ngModel)]="selectedTrack.rating" min="0" max="100" step="20"/>
+      </td>
+      <td>
+        <select [(ngModel)]="selectedTrack.genre" id="inpR2">
+          <option></option>
+          <option>Acid</option>
+          <option>Acid Jazz</option>
+          <option>Afrekening</option>
+          <option>Alternative</option>
+          <option>Ambient</option>
+          <option>Belgisch</option>
+          <option>Body Music</option>
+          <option>Bossa Nova</option>
+          <option>Dance</option>
+          <option>Div</option>
+          <option>Dream Pop</option>
+          <option>Electronic</option>
+          <option>Flipper</option>
+          <option>France</option>
+          <option>Funk</option>
+          <option>Guitar</option>
+          <option>Hip-Hop</option>
+          <option>House</option>
+          <option>Indie</option>
+          <option>Indie Pop</option>
+          <option>Indietronica</option>
+          <option>Jazz</option>
+          <option>Latin</option>
+          <option>Lounge</option>
+          <option>Madchester</option>
+          <option>Maxx</option>			<!-- ? -->
+          <option>Minimal</option>
+          <option>New Beat</option>
+          <option>New Wave</option>
+          <option>Noise</option>
+          <option>Post-Rock</option>
+          <option>Regae</option>
+          <option>Shoegaze</option>
+          <option>Tango</option>
+          <option>Trip-Hop</option>
+          <option>Twee</option>
+          <option>World</option>			<!-- ? -->
+        </select>
+      </td>
+      <td>
+        <input id="inpR3" type="number" name="txtJaar" [(ngModel)]="selectedTrack.jaar"   min="0"   max="2999" step="1"/>
+      </td>
+      <td>
+        <button type="button" (click)="RateSelectedTrack()">Save</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <span (click)="selectedTrack.rating=20"><a href="">&#9733;</a></span>
+      <span (click)="selectedTrack.rating=40"><a href="">&#9733;</a></span>
+      <span (click)="selectedTrack.rating=60"><a href="">&#9733;</a></span>
+      <span (click)="selectedTrack.rating=80"><a href="">&#9733;</a></span>
+      <span (click)="selectedTrack.rating=100"><a href="">&#9733;</a></span>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+<p></p>
 <table>
   <tr><td>artist:</td><td>{{ this.selectedTrack.artist }}</td></tr> 
   <tr><td>title: </td><td>{{ this.selectedTrack.title }}</td></tr>

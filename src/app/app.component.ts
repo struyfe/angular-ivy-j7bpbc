@@ -117,9 +117,52 @@ export class AppComponent {
     this.tracks[key].ratingID = response.ratingid;
     this.tracks[key].trackID = response.trackid;
     this.tracks[key].artistID = response.artistid;
+    this.tracks[key].source = response.source;
+    this.tracks[key].created = response.created;
+    this.tracks[key].updated = response.updated;
 
     this.selectedTrack = this.tracks[key];
     console.log('ParseWPLLookupTrack - Einde');
+  }
+
+  RateSelectedTrack(){
+    console.log('RateSelectedTrack - Start');
+
+		const sURI = "https://absquedubio.org/whapl/RateTrack.php";
+	//	$scope.RatingRecentGenre=$scope.SelectedTrack.genre;
+	//	$scope.RatingRecentJaar=$scope.SelectedTrack.jaar;
+		console.log( "RateSelectedTrack, artist=>" + this.selectedTrack.artist + "<");
+		console.log( "RateSelectedTrack, track=>" + this.selectedTrack.title + "<");
+		console.log( "RateSelectedTrack, rating=" + this.selectedTrack.rating);
+		console.log( "RateSelectedTrack, track=>" + this.selectedTrack.genre + "<");
+		console.log( "RateSelectedTrack, rating=" + this.selectedTrack.jaar);
+
+    const objHeaders = { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' };
+    const objParams = {
+      'artist': encodeURI( this.selectedTrack.artist),
+      'title': encodeURI( this.selectedTrack.title),
+      'album': encodeURI( this.selectedTrack.album),
+      'genre': encodeURI( this.selectedTrack.genre),
+      'jaar': this.selectedTrack.jaar,
+      'rating': this.selectedTrack.rating,
+      'source': "WhatsPlayim"
+    };
+    const req = this.http.post<any>(
+      sURI,
+			{},
+      { 
+        headers: objHeaders ,
+        params: objParams 
+      }
+      );
+
+    req.subscribe((response) => {
+      console.log('subscribe op WPL.RateTrack triggered');
+      console.log('response WPL.RateTrack: ');
+      console.log(response);
+    });
+
+    console.log('RateSelectedTrack - Einde');
   }
 }
 
