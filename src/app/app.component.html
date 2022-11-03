@@ -1,0 +1,20 @@
+
+<button (click)="Refresh()">Refresh</button>
+
+<table>
+  <tr><td>artist:</td><td>{{ this.selectedTrack.artist }}</td></tr> 
+  <tr><td>title: </td><td>{{ this.selectedTrack.title }}</td></tr>
+  <tr><td>album: </td><td>{{ this.selectedTrack.album }}</td></tr>
+  <tr><td>rating: </td><td>{{ this.selectedTrack.rating }}</td></tr>
+  <tr><td>genre: </td><td>{{ this.selectedTrack.genre }}</td></tr>
+  <tr><td>jaar: </td><td>{{ this.selectedTrack.jaar }}</td></tr>
+  <tr><td>source: </td><td>{{ this.selectedTrack.source }}</td></tr>
+  <tr><td>created: </td><td>{{ this.selectedTrack.created }}</td></tr>
+  <tr><td>updated: </td><td>{{ this.selectedTrack.updated }}</td></tr>
+</table>
+
+<h2>Tracks</h2>
+
+<div *ngFor="let objtrack of lastfmresponse.recenttracks.track">
+{{ objtrack.artist["#text"] }} - {{ objtrack.name }} ({{ objtrack.album["#text"]}})
+</div>
