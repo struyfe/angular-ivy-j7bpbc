@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ilfmTrack } from './lastfm/lastfm';
 import { ilfmRecentTracks } from './lastfm/lastfm';
 import { ilfmRecentTracksResponse } from './lastfm/lastfm';
+import { TrackRating, EmptyTrackRating} from './whapl/whapl';
 
 @Component({
   selector: 'my-app',
@@ -125,73 +126,7 @@ export class AppComponent {
     console.log('ParseWPLLookupTrack - Einde');
   }
 
-  RateSelectedTrack(){
-    console.log('RateSelectedTrack - Start');
-
-		const sURI = "https://absquedubio.org/whapl/RateTrack.php";
-	//	$scope.RatingRecentGenre=$scope.SelectedTrack.genre;
-	//	$scope.RatingRecentJaar=$scope.SelectedTrack.jaar;
-		console.log( "RateSelectedTrack, artist=>" + this.selectedTrack.artist + "<");
-		console.log( "RateSelectedTrack, track=>" + this.selectedTrack.title + "<");
-		console.log( "RateSelectedTrack, rating=" + this.selectedTrack.rating);
-		console.log( "RateSelectedTrack, track=>" + this.selectedTrack.genre + "<");
-		console.log( "RateSelectedTrack, rating=" + this.selectedTrack.jaar);
-
-    const objHeaders = { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' };
-    const objParams = {
-      'artist': encodeURI( this.selectedTrack.artist),
-      'title': encodeURI( this.selectedTrack.title),
-      'album': encodeURI( this.selectedTrack.album),
-      'genre': encodeURI( this.selectedTrack.genre),
-      'jaar': this.selectedTrack.jaar,
-      'rating': this.selectedTrack.rating,
-      'source': "WhatsPlayim"
-    };
-    const req = this.http.post<any>(
-      sURI,
-			{},
-      { 
-        headers: objHeaders ,
-        params: objParams 
-      }
-      );
-
-    req.subscribe((response) => {
-      console.log('subscribe op WPL.RateTrack triggered');
-      console.log('response WPL.RateTrack: ');
-      console.log(response);
-    });
-
-    console.log('RateSelectedTrack - Einde');
-  }
+  
 }
 
-export interface TrackRating {
-  artist: string;
-  title: string;
-  album: string;
-  rating: number;
-  genre: string;
-  jaar: number;
-  source: string;
-  created: string;
-  updated: string;
-  ratingID: number;
-  trackID: number;
-  artistID: number;
-}
 
-export const EmptyTrackRating: TrackRating = {
-  artist: '',
-  title: '',
-  album: '',
-  rating: -1,
-  genre: '',
-  jaar: 0,
-  source: '',
-  created: '',
-  updated: '',
-  ratingID: -1,
-  trackID: -1,
-  artistID: -1,
-};
