@@ -7,13 +7,12 @@
 {{ this.selectedTrack.artist }} - {{ this.selectedTrack.title }} ({{ this.selectedTrack.album }})
 </div>
 <div>
-  <table>
-    <tr>
-      <td>
-        <input id="inpR1" type="number" name="txtRating" [(ngModel)]="selectedTrack.rating" min="0" max="100" step="20"/>
-      </td>
-      <td>
-        <select [(ngModel)]="selectedTrack.genre" id="inpR2">
+    <div class="row">
+      <div class="col-sm-2">
+        <input  id="inpR1" class="form-control" type="number" name="txtRating" [(ngModel)]="selectedTrack.rating" min="0" max="100" step="20"/>
+      </div>
+      <div class="col-sm-6">
+        <select class="form-control" [(ngModel)]="selectedTrack.genre" id="inpR2">
           <option></option>
           <option>Acid</option>
           <option>Acid Jazz</option>
@@ -53,27 +52,49 @@
           <option>Twee</option>
           <option>World</option>			<!-- ? -->
         </select>
-      </td>
-      <td>
-        <input id="inpR3" type="number" name="txtJaar" [(ngModel)]="selectedTrack.jaar"   min="0"   max="2999" step="1"/>
-      </td>
-      <td>
-        <button type="button" (click)="RateSelectedTrack()">Save</button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-      <span (click)="selectedTrack.rating=20"><a href="">&#9733;</a></span>
-      <span (click)="selectedTrack.rating=40"><a href="">&#9733;</a></span>
-      <span (click)="selectedTrack.rating=60"><a href="">&#9733;</a></span>
-      <span (click)="selectedTrack.rating=80"><a href="">&#9733;</a></span>
-      <span (click)="selectedTrack.rating=100"><a href="">&#9733;</a></span>
-      </td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" id="inpR3" type="number" name="txtJaar" [(ngModel)]="selectedTrack.jaar"   min="0"   max="2999" step="1"/>
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-success btn-sm"  (click)="RateSelectedTrack()">Save</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+      <div class="btn-group" role="group" aria-label="Basic example">
+      <button (click)="selectedTrack.rating=20" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      <button (click)="selectedTrack.rating=40" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      <button (click)="selectedTrack.rating=60" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      <button (click)="selectedTrack.rating=80" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      <button (click)="selectedTrack.rating=100" type="button" class="btn btn-link" style="padding-left: 1px; padding-right: 0px; text-decoration: none">&#9733;</button>
+      </div>
+      </div>
+      <div class="col-sm-6">
+      <table>
+      <tr>
+        <td align="center">
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Electronic"'>Electronic</button>
+          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Indietronica"'>Indietronica</button>
+          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Lounge"'>Lounge</button>
+          <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Trip-Hop"'>Trip-Hop</button>
+          <button type="button" class="btn btn-warning btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Custom"'>Custom</button>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Indie"'>Indie</button>
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Indie Pop"'>Indie Pop</button>
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Dream Pop"'>Dream Pop</button>
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Alternative"'>Alternative</button>
+        <button type="button" class="btn btn-info btn-sm" style="padding: 0px 2px; margin: 0px 1px; font-size: .80rem;" (click)='selectedTrack.genre="Belgisch"'>Belgisch</button>
+      </tr>
+    </table>
+
+      </div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
 </div>
 <p></p>
 <table>
