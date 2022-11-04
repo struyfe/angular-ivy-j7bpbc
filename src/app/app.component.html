@@ -3,8 +3,10 @@
 
 <p></p>
 <ratingPane [myTrack]="selectedTrack"></ratingPane>
-
 <p></p>
+<lfmMaster [myTracks]="tracks"></lfmMaster>
+<p></p>
+<!--
 <table>
   <tr><td>artist:</td><td>{{ this.selectedTrack.artist }}</td></tr> 
   <tr><td>title: </td><td>{{ this.selectedTrack.title }}</td></tr>
@@ -16,9 +18,5 @@
   <tr><td>created: </td><td>{{ this.selectedTrack.created }}</td></tr>
   <tr><td>updated: </td><td>{{ this.selectedTrack.updated }}</td></tr>
 </table>
+-->
 
-<h2>Tracks</h2>
-
-<div *ngFor="let objtrack of lastfmresponse.recenttracks.track">
-{{ objtrack.artist["#text"] }} - {{ objtrack.name }} ({{ objtrack.album["#text"]}})
-</div>
