@@ -52,6 +52,7 @@ export class RatingPaneComponent implements OnChanges {
         }
     });
 
+    this.LastFMTrackYearReleased=0;
     const sURI2 = 
       'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + 
       myEncodeURI( this.myTrack.artist, 'lastfm') + 
