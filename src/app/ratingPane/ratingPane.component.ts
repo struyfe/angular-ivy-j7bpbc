@@ -21,17 +21,18 @@ export class RatingPaneComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // changes.prop contains the old and the new value...
-    console.log( "RatingPaneComponent.ngOnChanges - start");
+    //console.log( "RatingPaneComponent.ngOnChanges - start");
 
     const sURI = 
       'https://itunes.apple.com/search?term=' + 
       encodeURI( this.myTrack.artist) + '%20' + 
       encodeURI( this.myTrack.title) +  '&media=music';
+    console.log('RatingPaneComponent.ngOnChanges - iTunes.search: ' + sURI);
     const req = this.http.get<any>( sURI);
 
     req.subscribe((response) => {
-      console.log('subscribe op iTunes.search triggered');
-      console.log(response);
+      //console.log('RatingPaneComponent.ngOnChanges - subscribe op iTunes.search triggered');
+      //console.log(response);
       if (response.resultCount > 0)
       {
         if (response.results[0].wrapperType = "Track")
@@ -60,8 +61,8 @@ export class RatingPaneComponent implements OnChanges {
     const req2 = this.http.get<any>( sURI2);
 
     req2.subscribe((response2) => {
-      console.log('subscribe op audioscrobbler.artist.getInfo triggered');
-      console.log(response2);
+      //console.log('subscribe op audioscrobbler.artist.getInfo triggered');
+      //console.log(response2);
       if (! ("error" in response2))
       if (typeof response2.artist !== 'undefined')
       if (typeof response2.artist.mbid !== 'undefined') {
@@ -73,8 +74,8 @@ export class RatingPaneComponent implements OnChanges {
           const req3 = this.http.get<any>( sURI3);
     
           req3.subscribe((response3) => {
-            console.log('subscribe op musicbrainz.releas-groups triggered');
-            console.log(response3);
+            //console.log('subscribe op musicbrainz.releas-groups triggered');
+            //console.log(response3);
             response3['release-groups'].sort(function(a, b)
               {
                 var aDate = new Date( a['first-release-date']);
@@ -109,10 +110,10 @@ export class RatingPaneComponent implements OnChanges {
       }
       else
       {
-        console.log("In RefreshTrackInfo - typeof $scope.ArtistInfo.artist.mbid !== 'undefined' voor " + this.myTrack.artist + " --> geen releases");
+
       }
     });
-    console.log( "RatingPaneComponent.ngOnChanges - einde");
+    //console.log( "RatingPaneComponent.ngOnChanges - einde");
   }
 
   RateSelectedTrack(){

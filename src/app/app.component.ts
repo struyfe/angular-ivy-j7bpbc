@@ -25,19 +25,57 @@ export class AppComponent {
   };
   tracks: TrackRating[];
   selectedTrack: TrackRating = EmptyTrackRating;
+  //countdown seconden tot refresh
+  myInterval : any;
+  tsRefreshTime : Date = new Date( Date.now());
+  tsNow : Date = new Date( Date.now());
+  //Autopause
+  AutoRefreshPauseCheck : string = "";                      // bevat concat van artisi & title
+  AutoRefreshPaused : boolean = false;
+  AutoRefreshDT : Date = new Date( Date.now());             // wordt geïnitialiseerd in constructor
+
+    
 
   constructor(private http: HttpClient) {
+    console.log('constructor - Start');
+    var ts = new Date( Date.now());
+    //init timestamp autorefresh 
+    this.AutoRefreshDT.setMinutes( ts.getMinutes()+15);
+    //init countdown refresh 
+    this.myInterval = setInterval( () => this.CountdownFunc(), 1000);
     this.Refresh();
+    console.log('constructor - Einde');
+  }
+
+  FormatTitleBarInfo = function( ) {
+		var	sInfo = "refresh in " + ((this.tsRefreshTime - this.tsNow)/1000).toFixed(0) + " sec";
+		return sInfo;
+	}
+
+  CountdownFunc(){
+    //console.log('CountdownFunc - Start');
+    this.tsNow = new Date( Date.now());
+    //console.log( this);
+    //console.log( this.tsRefreshTime);
+    //console.log( 'CountdownFunc - ' + this.tsNow);
+    if ( !this.AutoRefreshPaused && (this.tsNow >= this.tsRefreshTime)) {
+      //Time to refresh
+      //console.log('CountdownFunc - Time to refresh');
+      this.tsRefreshTime.setSeconds( this.tsRefreshTime.getSeconds() + 30);
+      this.Refresh();
+    }
+    //console.log('CountdownFunc - Einde');
   }
 
   Refresh() {
     console.log('Refresh - Start');
+
     const req = this.http.get<any>(
       'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=absquedubio&limit=20&page=1&format=json&api_key=859abce6405ff2cc9900685142051add'
     );
 
     req.subscribe((response) => {
-      console.log('subscribe op LFM.getrecenttracks triggered');
+      //console.log('subscribe op LFM.getrecenttracks triggered');
       this.lastfmresponse = response;
       this.ParseLFMGetRecentTracks();
     });
@@ -45,7 +83,7 @@ export class AppComponent {
   }
 
   ParseLFMGetRecentTracks() {
-    console.log('ParseLFMGetRecentTracks - Start');
+    //console.log('ParseLFMGetRecentTracks - Start');
     var arrTracks: TrackRating[] = [];
     var objTrack: ilfmTrack;
     var i: number;
@@ -76,7 +114,7 @@ export class AppComponent {
     }
     this.tracks = arrTracks;
 
-    console.log('this.tracks.length:' + this.tracks.length);
+    //console.log('this.tracks.length:' + this.tracks.length);
     if (this.tracks.length >= 1) {
       this.selectedTrack = this.tracks[0];
       console.log('selected track to lookup: ');
@@ -92,20 +130,38 @@ export class AppComponent {
       const req2 = this.http.get<any>(strUrl);
 
       req2.subscribe((response) => {
-        console.log('subscribe op WPL.LookupTrack triggered');
-        console.log('response WPL.LookupTrack: ');
-        console.log(response);
+        //console.log('subscribe op WPL.LookupTrack triggered');
+        //console.log('response WPL.LookupTrack: ');
+        //console.log(response);
         this.ParseWPLLookupTrack(response);
       });
       this.selectedTrack = this.tracks[0];
     } else {
       this.selectedTrack = EmptyTrackRating;
     }
-    console.log('ParseLFMGetRecentTracks - Einde');
+
+    if (this.AutoRefreshPauseCheck == (this.selectedTrack.title + this.selectedTrack.artist))
+    {
+      //zelfde track als vorige keer --> check of tijd voor autopause
+      var dtNow = new Date( Date.now());
+      this.AutoRefreshPaused = (dtNow >= this.AutoRefreshDT);
+      console.log('ParseLFMGetRecentTracks - autopause op ' + this.AutoRefreshDT.toTimeString());
+    }
+    else
+    {
+      //ander nummer --> schiuf tijd voor autopause op
+      this.AutoRefreshPaused = false;
+      var dtNow = new Date( Date.now());
+      this.AutoRefreshDT.setMinutes( dtNow.getMinutes() + 15);
+      this.AutoRefreshPauseCheck = this.selectedTrack.title + this.selectedTrack.artist;
+      console.log('ParseLFMGetRecentTracks - autopause verschoven naar ' + this.AutoRefreshDT.toTimeString());
+    }
+
+    //console.log('ParseLFMGetRecentTracks - Einde');
   }
 
   ParseWPLLookupTrack(response: any) {
-    console.log('ParseWPLLookupTrack - Start');
+    //console.log('ParseWPLLookupTrack - Start');
 
     const key = response.key; //truukje om index nog te kennen (async!)
     if (response.rating != '')
@@ -123,7 +179,7 @@ export class AppComponent {
     this.tracks[key].updated = response.updated;
 
     this.selectedTrack = this.tracks[key];
-    console.log('ParseWPLLookupTrack - Einde');
+    //console.log('ParseWPLLookupTrack - Einde');
   }
 
   
