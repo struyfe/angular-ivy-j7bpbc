@@ -25,6 +25,7 @@ export class AppComponent {
   };
   tracks: TrackRating[];
   selectedTrack: TrackRating = EmptyTrackRating;
+  AutoRefresh : boolean = true;
   //countdown seconden tot refresh
   myInterval : any;
   tsRefreshTime : Date = new Date( Date.now());
@@ -46,11 +47,6 @@ export class AppComponent {
     this.Refresh();
     console.log('constructor - Einde');
   }
-
-  FormatTitleBarInfo = function( ) {
-		var	sInfo = "refresh in " + ((this.tsRefreshTime - this.tsNow)/1000).toFixed(0) + " sec";
-		return sInfo;
-	}
 
   CountdownFunc(){
     //console.log('CountdownFunc - Start');

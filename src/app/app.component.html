@@ -1,7 +1,7 @@
 
 <button (click)="Refresh()">Refresh</button>
+<topBar [RefreshTime]="tsRefreshTime"></topBar>
 
-<p>{{FormatTitleBarInfo()}}</p>
 <ratingPane [myTrack]="selectedTrack"></ratingPane>
 <p></p>
 <lfmMaster [myTracks]="tracks"></lfmMaster>
