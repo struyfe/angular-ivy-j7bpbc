@@ -49,8 +49,8 @@ export class AppComponent {
     if (bValueToSet)
     { //timer moet opgezet worden.  Is er al timer gezet?  Zo ja, disable
       if (this.myInterval == null) clearInterval(this.myInterval);
-      var tsNow = new Date( Date.now());
-      this.tsRefreshTime.setSeconds( tsNow.getSeconds() + 30);
+      this.tsRefreshTime = new Date( Date.now());
+      this.tsRefreshTime.setSeconds( this.tsRefreshTime.getSeconds() + 30);
       this.myInterval = setInterval( () => this.CountdownFunc(), 1000);
       console.log(this.constructor.name+'.SetAutoRefresh. Refresh in 30 seconds at '+this.tsRefreshTime.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
     }
@@ -84,7 +84,12 @@ export class AppComponent {
   }
 
   SelectTrack( nIndex: number){
+    //console.log(this.constructor.name+'.SelectTrack - Start');
+    //console.log(this.constructor.name+'.SelectTrack - nIndex='+nIndex);
     this.selectedIndex = nIndex;
+    console.log(this.constructor.name+'.SelectTrack - about to set selectedTrack='+nIndex+':'+this.tracks[nIndex].title);
+    this.selectedTrack = this.tracks[nIndex];
+    //console.log(this.constructor.name+'.SelectTrack - Einde');
   }
   Refresh() {
     //console.log(this.constructor.name+'.'+'Refresh - Start');
@@ -103,13 +108,13 @@ export class AppComponent {
   }
 
   ParseLFMGetRecentTracks() {
-    //console.log('ParseLFMGetRecentTracks - Start');
+    //console.log(this.constructor.name+'.ParseLFMGetRecentTracks - Start');
     var arrTracks: TrackRating[] = [];
     var objTrack: ilfmTrack;
-    var i: number;
+    var i: number = 0;
 
     //copieer info van response naar this.tracks
-    console.log( "Refresh --> ParseLFMGetRecentTracks. #tracks:" + this.lastfmresponse.recenttracks.track.length);
+    console.log( this.constructor.name+'.ParseLFMGetRecentTracks (<<< Refresh). #tracks:' + this.lastfmresponse.recenttracks.track.length);
     for (objTrack of this.lastfmresponse.recenttracks.track) {
       var sCreated = '';
       if (typeof objTrack.date !== 'undefined')
@@ -131,22 +136,12 @@ export class AppComponent {
       //console.log(aTrack);
       arrTracks.push(aTrack);
       //console.log( "arrTracks.length:" + arrTracks.length);
-    }
-    this.tracks = arrTracks;
-
-    //console.log('this.tracks.length:' + this.tracks.length);
-    if (this.tracks.length >= 1) {
-      this.selectedTrack = this.tracks[0];
-      //console.log('selected track to lookup: ');
-      //console.log(this.selectedTrack);
 
       const strUrl =
         'https://absquedubio.org/whapl/LookupTrack.php?' +
-        'artist=' +
-        encodeURI(this.selectedTrack.artist) +
-        '&title=' +
-        encodeURI(this.selectedTrack.title) +
-        '&key=0';
+        'artist=' + encodeURI(aTrack.artist) +
+        '&title=' + encodeURI(aTrack.title) +
+        '&key='+i;
       const req2 = this.http.get<any>(strUrl);
 
       req2.subscribe((response) => {
@@ -155,7 +150,15 @@ export class AppComponent {
         //console.log(response);
         this.ParseWPLLookupTrack(response);
       });
-      this.selectedTrack = this.tracks[0];
+
+      i +=1;
+
+    }
+    this.tracks = arrTracks;
+
+    //console.log('this.tracks.length:' + this.tracks.length);
+    if (this.tracks.length >= 1) {
+      this.SelectTrack(0);
     } else {
       this.selectedTrack = EmptyTrackRating;
     }
@@ -166,23 +169,27 @@ export class AppComponent {
         //zelfde track als vorige keer --> check of tijd voor autopause
         var dtNow = new Date( Date.now());
         this.AutoRefreshPaused = (dtNow >= this.AutoRefreshDT);
-        console.log('ParseLFMGetRecentTracks - autopause op ' + this.AutoRefreshDT.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
+        var nMinuten : number = Math.floor((this.AutoRefreshDT.valueOf() - dtNow.valueOf())/1000/60);
+        var nSeconden : number = (this.AutoRefreshDT.valueOf() - dtNow.valueOf())/1000 - 60*nMinuten;
+        console.log('ParseLFMGetRecentTracks - autopause op ' + this.AutoRefreshDT.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }) + ' over ' + nMinuten.toLocaleString( undefined, { maximumFractionDigits: 0 }) + ':' + nSeconden.toLocaleString( undefined, { minimumIntegerDigits: 2, maximumFractionDigits: 0 }) + ' minuten' + ' ('+ dtNow.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }) + ').  AutoRefreshPaused=' + this.AutoRefreshPaused);
       }
       else
       {
-        //ander nummer --> schiuf tijd voor autopause op
+        //ander nummer --> schuif tijd voor autopause op
         this.AutoRefreshPaused = false;
         var dtNow = new Date( Date.now());
+        this.AutoRefreshDT = dtNow;
         this.AutoRefreshDT.setMinutes( dtNow.getMinutes() + 15);
         this.AutoRefreshPauseCheck = this.selectedTrack.title + this.selectedTrack.artist;
         console.log('ParseLFMGetRecentTracks - autopause verschoven naar ' + this.AutoRefreshDT.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
       }
 
-    //console.log('ParseLFMGetRecentTracks - Einde');
+    //console.log(this.constructor.name+'.ParseLFMGetRecentTracks - Einde');
   }
 
   ParseWPLLookupTrack(response: any) {
-    //console.log('ParseWPLLookupTrack - Start');
+    //console.log(this.constructor.name+'.ParseWPLLookupTrack - Start');
+    console.log(this.constructor.name+'.ParseWPLLookupTrack '+response.key+': '+response.artist+'-'+response.title);
 
     const key = response.key; //truukje om index nog te kennen (async!)
     if (response.rating != '')
@@ -199,8 +206,7 @@ export class AppComponent {
     this.tracks[key].created = response.created;
     this.tracks[key].updated = response.updated;
 
-    this.selectedTrack = this.tracks[key];
-    //console.log('ParseWPLLookupTrack - Einde');
+    //console.log(this.constructor.name+'.ParseWPLLookupTrack - Einde');
   }
 
   ExecuteAction( sAction: string)
