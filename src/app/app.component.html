@@ -1,10 +1,11 @@
 
 <button (click)="Refresh()">Refresh</button>
-<topBar [RefreshTime]="tsRefreshTime"></topBar>
+<span>Selected track index: {{selectedIndex}}</span>
+<topBar [RefreshTime]="tsRefreshTime" (ActionRequested)="ExecuteAction($event)"></topBar>
 
 <ratingPane [myTrack]="selectedTrack"></ratingPane>
 <p></p>
-<lfmMaster [myTracks]="tracks"></lfmMaster>
+<lfmMaster [myTracks]="tracks" [selectedItemIndex]="selectedIndex" (itemIndexSelected)="SelectTrack($event)"></lfmMaster>
 <p></p>
 <!--
 <table>

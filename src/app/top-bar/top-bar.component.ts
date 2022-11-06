@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'topBar',
@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TopBarComponent implements OnInit {
 
   @Input()  RefreshTime : Date = new Date( Date.now());
+  @Output() ActionRequested = new EventEmitter<string>();
+  lastActionRequested: string = "";
   
   constructor() { }
 
@@ -19,5 +21,14 @@ export class TopBarComponent implements OnInit {
     var	sInfo = "refresh in " + nsec.toFixed(0) + " sec";
 		return sInfo;
 	}
+
+  RequestAction(value: string) {
+    console.log( 'RequestAction - Start')
+    this.lastActionRequested = value;
+    //console.log( 'RequestAction - selectedItemIndex set to ' + value)
+    this.ActionRequested.emit(value);
+    console.log( 'RequestAction - itemIndexSelected amitted with ' + value)
+    console.log( 'RequestAction - Einde')
+  }
 
 }

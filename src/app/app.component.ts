@@ -25,6 +25,7 @@ export class AppComponent {
   };
   tracks: TrackRating[];
   selectedTrack: TrackRating = EmptyTrackRating;
+  selectedIndex: number = 0;
   AutoRefresh : boolean = true;
   //countdown seconden tot refresh
   myInterval : any;
@@ -63,9 +64,13 @@ export class AppComponent {
     //console.log('CountdownFunc - Einde');
   }
 
+  SelectTrack( nIndex: number){
+    this.selectedIndex = nIndex;
+  }
   Refresh() {
-    console.log('Refresh - Start');
+    //console.log('Refresh - Start');
 
+    console.log('Refresh - lfm.GetRecenTracks');
     const req = this.http.get<any>(
       'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=absquedubio&limit=20&page=1&format=json&api_key=859abce6405ff2cc9900685142051add'
     );
@@ -75,7 +80,7 @@ export class AppComponent {
       this.lastfmresponse = response;
       this.ParseLFMGetRecentTracks();
     });
-    console.log('Refresh - Einde');
+    //console.log('Refresh - Einde');
   }
 
   ParseLFMGetRecentTracks() {
@@ -113,8 +118,8 @@ export class AppComponent {
     //console.log('this.tracks.length:' + this.tracks.length);
     if (this.tracks.length >= 1) {
       this.selectedTrack = this.tracks[0];
-      console.log('selected track to lookup: ');
-      console.log(this.selectedTrack);
+      //console.log('selected track to lookup: ');
+      //console.log(this.selectedTrack);
 
       const strUrl =
         'https://absquedubio.org/whapl/LookupTrack.php?' +
@@ -178,7 +183,16 @@ export class AppComponent {
     //console.log('ParseWPLLookupTrack - Einde');
   }
 
-  
+  ExecuteAction( sAction: string)
+  {
+    switch(sAction) {
+      case "refresh":
+        this.Refresh();
+        break;
+      default:
+        //nothing
+    } 
+  }
 }
 
 
