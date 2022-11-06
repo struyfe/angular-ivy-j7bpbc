@@ -15,8 +15,16 @@ export class RatingPaneComponent implements OnChanges {
   RatingRecentGenre : string = "";
   iTunesTrackYearReleased : number = 0;
   LastFMTrackYearReleased : number = 0;
+  OnSmallScreen : boolean = false;
 
   constructor(private http: HttpClient) {
+  }
+
+  ngOnInit() {
+    console.log ("document.body.offsetWidth:" + document.body.offsetWidth);
+    if (document.body.offsetWidth <= 360) { // 768px portrait
+      this.OnSmallScreen = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
