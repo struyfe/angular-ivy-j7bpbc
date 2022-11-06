@@ -117,16 +117,16 @@ export class RatingPaneComponent implements OnChanges {
   }
 
   RateSelectedTrack(){
-    console.log('RateSelectedTrack - Start');
+    //console.log(this.constructor.name+'.RateSelectedTrack - Start');
 
 		const sURI = "https://absquedubio.org/whapl/RateTrack.php";
 		this.RatingRecentGenre=this.myTrack.genre;
 		this.RatingRecentJaar=this.myTrack.jaar;
-		console.log( "RateSelectedTrack, artist=>" + this.myTrack.artist + "<");
-		console.log( "RateSelectedTrack, track=>" + this.myTrack.title + "<");
-		console.log( "RateSelectedTrack, rating=" + this.myTrack.rating);
-		console.log( "RateSelectedTrack, track=>" + this.myTrack.genre + "<");
-		console.log( "RateSelectedTrack, rating=" + this.myTrack.jaar);
+		//console.log( "RateSelectedTrack, artist=>" + this.myTrack.artist + "<");
+		//console.log( "RateSelectedTrack, track=>" + this.myTrack.title + "<");
+		//console.log( "RateSelectedTrack, rating=" + this.myTrack.rating);
+		//console.log( "RateSelectedTrack, track=>" + this.myTrack.genre + "<");
+		//console.log( "RateSelectedTrack, rating=" + this.myTrack.jaar);
 
     const objHeaders = { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' };
     const objParams = {
@@ -138,6 +138,7 @@ export class RatingPaneComponent implements OnChanges {
       'rating': this.myTrack.rating,
       'source': "WhatsPlayim"
     };
+    console.log(this.constructor.name+'.RateSelectedTrack - About to rate '+this.myTrack.artist+'-'+this.myTrack.title+' ('+this.myTrack.rating+')');
     const req = this.http.post<any>(
       sURI,
 			{},
@@ -148,12 +149,12 @@ export class RatingPaneComponent implements OnChanges {
       );
 
     req.subscribe((response) => {
-      console.log('subscribe op WPL.RateTrack triggered');
-      console.log('response WPL.RateTrack: ');
+      //console.log(this.constructor.name+'.RateSelectedTrack - subscribe op WPL.RateTrack triggered');
+      console.log(this.constructor.name+'.RateSelectedTrack - response WPL.RateTrack: ');
       console.log(response);
     });
 
-    console.log('RateSelectedTrack - Einde');
+    //console.log(this.constructor.name+'.RateSelectedTrack - Einde');
   }
 
   GetCurrentYear = function( iDif: number = 0) {

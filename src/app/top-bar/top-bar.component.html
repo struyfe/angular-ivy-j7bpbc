@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">What's playing?</a>
-    <span class="navbar-text me-auto">{{FormatTitleBarInfo()}}-{{lastActionRequested}}</span>
+    <span class="navbar-text me-auto">{{FormatTitleBarInfo()}}</span>
     <!-- Refresh -->
     <a href="#" (click)="RequestAction( 'refresh')">
       <span class="material-symbols-outlined">refresh</span>
@@ -12,14 +12,25 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#"><input type="checkbox" role="toolbar" [(ngModel)]="AutoRefreshEnabled" (click)="ToggleAutoRefresh( !AutoRefreshEnabled)"> Auto refresh</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"  (click)="RequestAction( '')">clear action</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Options
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="nav-item">
+              <a class="nav-link" href="#"><input type="checkbox" role="toolbar" [(ngModel)]="AutoRefreshEnabled" (click)="ToggleAutoRefresh( !AutoRefreshEnabled)"> Auto refresh</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"  (click)="RequestAction( '')">clear action</a>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
+<!--
+
+-->

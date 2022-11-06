@@ -1,12 +1,15 @@
-
+<!--
 <button (click)="Refresh()">Refresh</button>
 <span>Selected track index: {{selectedIndex}}</span>
+-->
+
 <topBar [RefreshTime]="tsRefreshTime" [AutoRefreshEnabled]="AutoRefreshEnabled" (ActionRequested)="ExecuteAction($event)" (AutoRefreshToggled)="SetAutoRefresh($event)"></topBar>
 
 <ratingPane [myTrack]="selectedTrack"></ratingPane>
 <p></p>
 <lfmMaster [myTracks]="tracks" [selectedItemIndex]="selectedIndex" (itemIndexSelected)="SelectTrack($event)"></lfmMaster>
 <p></p>
+
 <!--
 <table>
   <tr><td>artist:</td><td>{{ this.selectedTrack.artist }}</td></tr> 
