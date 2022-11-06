@@ -22,7 +22,7 @@ export class RatingPaneComponent implements OnChanges {
 
   ngOnInit() {
     console.log ("document.body.offsetWidth:" + document.body.offsetWidth);
-    if (document.body.offsetWidth <= 360) { // 768px portrait
+    if (document.body.offsetWidth <= 400) { // 768px portrait
       this.OnSmallScreen = true;
     }
   }
