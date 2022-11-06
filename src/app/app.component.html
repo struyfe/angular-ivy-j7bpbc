@@ -1,7 +1,7 @@
 
 <button (click)="Refresh()">Refresh</button>
 <span>Selected track index: {{selectedIndex}}</span>
-<topBar [RefreshTime]="tsRefreshTime" (ActionRequested)="ExecuteAction($event)"></topBar>
+<topBar [RefreshTime]="tsRefreshTime" [AutoRefreshEnabled]="AutoRefreshEnabled" (ActionRequested)="ExecuteAction($event)" (AutoRefreshToggled)="SetAutoRefresh($event)"></topBar>
 
 <ratingPane [myTrack]="selectedTrack"></ratingPane>
 <p></p>

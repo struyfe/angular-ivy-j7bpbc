@@ -27,7 +27,7 @@ export class RatingPaneComponent implements OnChanges {
       'https://itunes.apple.com/search?term=' + 
       encodeURI( this.myTrack.artist) + '%20' + 
       encodeURI( this.myTrack.title) +  '&media=music';
-    console.log('RatingPaneComponent.ngOnChanges - iTunes.search: ' + sURI);
+    //console.log(this.constructor.name+'.ngOnChanges - iTunes.search: ' + sURI);
     const req = this.http.get<any>( sURI);
 
     req.subscribe((response) => {

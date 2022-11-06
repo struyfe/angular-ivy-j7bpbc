@@ -26,7 +26,7 @@ export class AppComponent {
   tracks: TrackRating[];
   selectedTrack: TrackRating = EmptyTrackRating;
   selectedIndex: number = 0;
-  AutoRefresh : boolean = true;
+  AutoRefreshEnabled : boolean = false;
   //countdown seconden tot refresh
   myInterval : any;
   tsRefreshTime : Date = new Date( Date.now());
@@ -36,19 +36,38 @@ export class AppComponent {
   AutoRefreshPaused : boolean = false;
   AutoRefreshDT : Date = new Date( Date.now());             // wordt geïnitialiseerd in constructor
 
-    
-
   constructor(private http: HttpClient) {
-    console.log('constructor - Start');
-    var ts = new Date( Date.now());
-    //init timestamp autorefresh 
-    this.AutoRefreshDT.setMinutes( ts.getMinutes()+15);
-    //init countdown refresh 
-    this.myInterval = setInterval( () => this.CountdownFunc(), 1000);
+    //console.log(this.constructor.name+'.constructor - Start');
+    this.SetAutoRefresh( this.AutoRefreshEnabled);
     this.Refresh();
-    console.log('constructor - Einde');
+    //console.log(this.constructor.name+'.constructor - Einde');
   }
 
+  SetAutoRefresh( bValueToSet){
+    //console.log(this.constructor.name+'.SetAutoRefresh - Start');
+    console.log(this.constructor.name+'.SetAutoRefresh. bValueToSet:' + bValueToSet);
+    if (bValueToSet)
+    { //timer moet opgezet worden.  Is er al timer gezet?  Zo ja, disable
+      if (this.myInterval == null) clearInterval(this.myInterval);
+      var tsNow = new Date( Date.now());
+      this.tsRefreshTime.setSeconds( tsNow.getSeconds() + 30);
+      this.myInterval = setInterval( () => this.CountdownFunc(), 1000);
+      console.log(this.constructor.name+'.SetAutoRefresh. Refresh in 30 seconds at '+this.tsRefreshTime.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
+    }
+    else
+    { //timer moet afgezet worden.  Is er al timer gezet?
+      if (this.myInterval == null)  //intentionally used == tocheck for both null and undefined
+      { //er is nog geen timer --> gewoon laten zoals het is
+      }
+      else
+      { //er is al timer --> af zetten
+        clearInterval(this.myInterval);
+        console.log(this.constructor.name+'.SetAutoRefresh. Refresh disbaled');
+      }
+    }
+    this.AutoRefreshEnabled = bValueToSet;
+    //console.log(this.constructor.name+'.SetAutoRefresh - Einde');
+  }
   CountdownFunc(){
     //console.log('CountdownFunc - Start');
     this.tsNow = new Date( Date.now());
@@ -68,9 +87,9 @@ export class AppComponent {
     this.selectedIndex = nIndex;
   }
   Refresh() {
-    //console.log('Refresh - Start');
+    //console.log(this.constructor.name+'.'+'Refresh - Start');
 
-    console.log('Refresh - lfm.GetRecenTracks');
+    //console.log(this.constructor.name+'.'+'Refresh - lfm.GetRecenTracks');
     const req = this.http.get<any>(
       'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=absquedubio&limit=20&page=1&format=json&api_key=859abce6405ff2cc9900685142051add'
     );
@@ -90,7 +109,7 @@ export class AppComponent {
     var i: number;
 
     //copieer info van response naar this.tracks
-    //console.log( "lastfmresponse.recenttracks.track.length:" + this.lastfmresponse.recenttracks.track.length);
+    console.log( "Refresh --> ParseLFMGetRecentTracks. #tracks:" + this.lastfmresponse.recenttracks.track.length);
     for (objTrack of this.lastfmresponse.recenttracks.track) {
       var sCreated = '';
       if (typeof objTrack.date !== 'undefined')
@@ -141,22 +160,23 @@ export class AppComponent {
       this.selectedTrack = EmptyTrackRating;
     }
 
-    if (this.AutoRefreshPauseCheck == (this.selectedTrack.title + this.selectedTrack.artist))
-    {
-      //zelfde track als vorige keer --> check of tijd voor autopause
-      var dtNow = new Date( Date.now());
-      this.AutoRefreshPaused = (dtNow >= this.AutoRefreshDT);
-      console.log('ParseLFMGetRecentTracks - autopause op ' + this.AutoRefreshDT.toTimeString());
-    }
-    else
-    {
-      //ander nummer --> schiuf tijd voor autopause op
-      this.AutoRefreshPaused = false;
-      var dtNow = new Date( Date.now());
-      this.AutoRefreshDT.setMinutes( dtNow.getMinutes() + 15);
-      this.AutoRefreshPauseCheck = this.selectedTrack.title + this.selectedTrack.artist;
-      console.log('ParseLFMGetRecentTracks - autopause verschoven naar ' + this.AutoRefreshDT.toTimeString());
-    }
+    if (this.AutoRefreshEnabled)
+      if (this.AutoRefreshPauseCheck == (this.selectedTrack.title + this.selectedTrack.artist))
+      {
+        //zelfde track als vorige keer --> check of tijd voor autopause
+        var dtNow = new Date( Date.now());
+        this.AutoRefreshPaused = (dtNow >= this.AutoRefreshDT);
+        console.log('ParseLFMGetRecentTracks - autopause op ' + this.AutoRefreshDT.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
+      }
+      else
+      {
+        //ander nummer --> schiuf tijd voor autopause op
+        this.AutoRefreshPaused = false;
+        var dtNow = new Date( Date.now());
+        this.AutoRefreshDT.setMinutes( dtNow.getMinutes() + 15);
+        this.AutoRefreshPauseCheck = this.selectedTrack.title + this.selectedTrack.artist;
+        console.log('ParseLFMGetRecentTracks - autopause verschoven naar ' + this.AutoRefreshDT.toLocaleString('nl-BE', { hour:'numeric', minute:'numeric', second:'numeric' }));
+      }
 
     //console.log('ParseLFMGetRecentTracks - Einde');
   }
@@ -185,6 +205,8 @@ export class AppComponent {
 
   ExecuteAction( sAction: string)
   {
+    //console.log(this.constructor.name+'.ExecuteAction - Start');
+    console.log(this.constructor.name+'.ExecuteAction. Action:' + sAction);
     switch(sAction) {
       case "refresh":
         this.Refresh();
@@ -192,6 +214,7 @@ export class AppComponent {
       default:
         //nothing
     } 
+    //console.log(this.constructor.name+'.ExecuteAction - Einde');
   }
 }
 
