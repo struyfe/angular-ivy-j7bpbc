@@ -16,6 +16,8 @@ export class RatingPaneComponent implements OnChanges {
   iTunesTrackYearReleased : number = 0;
   LastFMTrackYearReleased : number = 0;
   OnSmallScreen : boolean = false;
+  colWidthFirst : string = "col-12";
+  colWidthSecond : string = "col-12";
 
   constructor(private http: HttpClient) {
   }
@@ -24,8 +26,16 @@ export class RatingPaneComponent implements OnChanges {
     console.log ("document.body.offsetWidth:" + document.body.offsetWidth);
     if (document.body.offsetWidth <= 400) { // 768px portrait
       this.OnSmallScreen = true;
+      this.colWidthFirst = "col-5";
+      this.colWidthSecond = "col-7";
     }
-  }
+    else
+    {
+      this.OnSmallScreen = true;
+      this.colWidthFirst = "col-12";
+      this.colWidthSecond = "col-12";
+    }
+}
 
   ngOnChanges(changes: SimpleChanges) {
     // changes.prop contains the old and the new value...
@@ -122,6 +132,15 @@ export class RatingPaneComponent implements OnChanges {
       }
     });
     //console.log( "RatingPaneComponent.ngOnChanges - einde");
+  }
+
+  GetResponsiveWidth() : string {
+    const sSmall = "col-12";
+    const sLarge = "col-6";
+    if (document.body.offsetWidth <= 400)  // 768px portrait
+      return sSmall;
+    else
+      return sLarge;
   }
 
   RateSelectedTrack(){
