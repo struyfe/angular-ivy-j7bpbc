@@ -35,7 +35,7 @@ export class RatingPaneComponent implements OnChanges {
       this.colWidthFirst = "col-12";
       this.colWidthSecond = "col-12";
     }
-}
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // changes.prop contains the old and the new value...
@@ -132,6 +132,15 @@ export class RatingPaneComponent implements OnChanges {
       }
     });
     //console.log( "RatingPaneComponent.ngOnChanges - einde");
+  }
+
+  GetStar( nScore: number, nTreshold: number) : string {
+    if(nScore>=nTreshold) 
+      //return "&#9733;" 
+      return "\u2605"     // dit is unicode hexadecimaal
+    else 
+      //return "&#9734;"  // dit is decimaal
+      return "\u2606"     // dit is unicode hexadecimaal
   }
 
   GetResponsiveWidth() : string {
